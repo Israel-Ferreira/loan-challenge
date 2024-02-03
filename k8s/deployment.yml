@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: loan-challenge-deployment
+
+
+spec:
+  selector:
+    matchLabels:
+      app: loan-challenge-api
+  template:
+    metadata:
+      name: loan-challenge-api
+      labels:
+        app: loan-challenge-api
+
+    spec:
+      containers:
+        - name: loan-challenge-api
+          image: israelsouza17/loan-challenge
+
+          ports:
+            - containerPort: 8000
+
+          
+
+          livenessProbe:
+            periodSeconds: 30
+            failureThreshold: 3 
+            httpGet:
+              path: /
+              port: 8000
+
+          readinessProbe:
+            periodSeconds: 10
+            failureThreshold: 3 
+            httpGet:
+              path: /
+              port: 8000
+          
